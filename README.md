@@ -1,2 +1,0 @@
-# promedicus
-REST de promedicus
