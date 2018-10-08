@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmValidParentMatcher, CustomValidators } from '../core/errors/custom-validators';
 import { AuthenticationService } from '../login/shared/authentication.service';
+import { PacienteService } from '../paciente/paciente.service';
 import { User } from '../core/models/user.model';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SimpleDialogComponent } from '../dialog/simple-dialog/simple-dialog.component';
 import { Router } from '@angular/router';
+import { Paciente } from '../core/models/paciente.model';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +22,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
+    private pacienteService: PacienteService,
     private dialog: MatDialog,
     private router: Router
   ) { }
@@ -28,7 +31,10 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBuilder.group({
       nombre: ['',[ Validators.required]],
       apellido: ['', [Validators.required]],
-      dni: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+      dni: ['', [Validators.required, 
+        Validators.pattern('[0-9]*'),
+        Validators.minLength(7)
+      ]],
       emailGroup: this.formBuilder.group({
         email: ['', [
           Validators.required,
@@ -55,7 +61,20 @@ export class RegisterComponent implements OnInit {
   }
 
   correctRegister(){
-    this.openDialog();
+    let paciente: Paciente = {
+      dni: this.form.value.dni,
+      nombre: this.form.value.nombre,
+      apellido: this.form.value.apellido,
+      direccion: "",
+      telefono: "",
+      email: this.form.value.emailGroup.email
+    }
+
+    console.log(paciente);
+
+    this.pacienteService.new(paciente).subscribe(
+      data => this.openDialog()
+    )
   }
 
   openDialog(){

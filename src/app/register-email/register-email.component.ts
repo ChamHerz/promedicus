@@ -21,7 +21,6 @@ export class RegisterEmailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.rutaActiva.snapshot.params.enlace);
     this.UUID = this.rutaActiva.snapshot.params.enlace;
     this.activarEmail();
   }

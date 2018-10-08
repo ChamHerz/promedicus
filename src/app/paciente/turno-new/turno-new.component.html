@@ -1,0 +1,73 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <form id="form-new-turno" [formGroup]="formNewTurno" (submit)="submitNewTurno()">
+    <mat-grid-list cols="6" rowHeight="100px">
+      <mat-grid-tile [colspan]="grid.desde.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput [min]="minDate" [matDatepicker]="pickerDesde" placeholder="Desde" formControlName="desde">
+              <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+              <mat-datepicker #pickerDesde></mat-datepicker>
+            </mat-form-field>   
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.hasta.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput [min]="maxDate" [matDatepicker]="pickerHasta" placeholder="Hasta" formControlName="hasta">
+              <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+              <mat-datepicker #pickerHasta></mat-datepicker>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.especialidad.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <mat-select placeholder="Especialidad" formControlName="especialidadControl" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let especialidad of especialidades" [value]="especialidad">
+                  {{especialidad.descripcion}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formNewTurno.controls.especialidadControl.hasError('required')">Ingrese Especialidad</mat-error>
+              <mat-hint></mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.medico.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <mat-select placeholder="Medico" formControlName="medicoControl" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let medico of medicos" [value]="medico">
+                  {{medico.nombre + ' ' + medico.apellido}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formNewTurno.controls.medicoControl.hasError('required')">Ingrese Medico</mat-error>
+              <mat-hint></mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.botonConfirmar.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <button mat-raised-button color="primary" form="form-new-turno" type="submit" [disabled]="formNewTurno.invalid">Confirmar</button>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.tablaTurnos.col" [rowspan]="grid.tablaTurnos.row">
+          <mat-card class="dashboard-card">
+            Tabla de Turnos
+          </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>

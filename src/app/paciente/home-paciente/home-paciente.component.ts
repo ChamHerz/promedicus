@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../../core/models/user.model';
 import { PacienteService } from '../paciente.service';
+import { Paciente } from '../../core/models/paciente.model';
 
 @Component({
   selector: 'app-home-paciente',
@@ -11,10 +12,10 @@ import { PacienteService } from '../paciente.service';
   styleUrls: ['./home-paciente.component.css']
 })
 export class HomePacienteComponent {
-  
-  nombre: String = "hola";
-  user: User = null;
-  animal: String = "perro";
+
+  user: User;
+  paciente: Paciente = new Paciente();
+  email: String = "";
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -35,8 +36,15 @@ export class HomePacienteComponent {
 
   correctUser(data: User){
     this.user = data;
-    console.log(this.user);
-    this.nombre = this.user.email;
+    this.email = this.user.email;
+    this.pacienteService.get(this.email).subscribe(
+      data => this.correctPaciente(data)
+    )
+  }
+
+  correctPaciente(paciente: Paciente){
+    this.paciente = paciente;
+    console.log(paciente);
   }
 
   public logout(): void{

@@ -59,11 +59,15 @@ export class LoginComponent implements OnInit {
   }
 
   private getModuloDestino(nivelPermiso: NivelUsuario): string {
-    let path: string[] = ["/paciente","/secretaria","/medico","administrador"];
+    let path: string[] = ["/paciente","/secretaria","/medico","/admin"];
     return path[nivelPermiso];
   }
 
   private goRegister(): void{
     this.router.navigate(['/register']);
+  }
+
+  goResetPass(): void{
+    this.router.navigate(['/register-pass']);
   }
 }

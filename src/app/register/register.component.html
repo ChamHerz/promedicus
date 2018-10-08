@@ -18,8 +18,8 @@
           </div>
         <div class="wrap-input100">
           <mat-form-field hintLabel="Max. 10 digitos" >
-            <input matInput #inputDni type="number" placeholder="DNI*" maxlength="10" name="dni" formControlName="dni">
-            <mat-hint align="end">{{inputDni.value?.length || 0}}/10</mat-hint>
+            <input matInput #inputDni type="text" placeholder="DNI*" maxlength="8" name="dni" formControlName="dni">
+            <mat-hint align="end">{{inputDni.value?.length || 0}}/8</mat-hint>
           </mat-form-field>
         </div>
         <div formGroupName="emailGroup" class="wrap-input100">

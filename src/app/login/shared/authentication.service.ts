@@ -5,6 +5,7 @@ import { LoginObject } from './login-object.model';
 import { Session } from '../../core/models/session.model';
 import { ConfigService } from '../../core/shared/config.service';
 import { User } from '../../core/models/user.model';
+import { ResetPass } from '../../core/models/reset-pass.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,13 @@ export class AuthenticationService {
 
   validarEmail(uuid: String): Observable<Boolean> {
     return this.http.put<Boolean>(this.config.pathServices + 'usuario/validar-email', uuid);
+  }
+
+  existeEmail(email: String): Observable<Boolean> {
+    return this.http.get<Boolean>(this.config.pathServices + 'usuario/existe-email/' + email);
+  }
+
+  resetPass(resetPass: ResetPass): Observable<Boolean> {
+    return this.http.put<Boolean>(this.config.pathServices + 'usuario/reset-pass', resetPass);
   }
 }
