@@ -4,7 +4,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeMedicoComponent } from './home-medico/home-medico.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
+import { 
+  MatToolbarModule, 
+  MatButtonModule, 
+  MatSidenavModule, 
+  MatIconModule,
+  MatListModule, 
+  MatGridListModule, 
+  MatCardModule,
+  MatInputModule,
+  MatDatepickerModule,
+  MatSelectModule,
+  MatNativeDateModule,
+  MatCheckboxModule,
+  MatTableModule,
+  MatMenuModule } from '@angular/material';
+import { AgendaComponent } from './agenda/agenda.component';
+import {SelectionModel} from '@angular/cdk/collections';
 
 @NgModule({
   imports: [
@@ -16,9 +33,19 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
     MatIconModule,
     MatListModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatTableModule,
+    ReactiveFormsModule
   ],
-  declarations: [HomeMedicoComponent],
+  declarations: [HomeMedicoComponent, AgendaComponent],
   exports: [
     HomeMedicoComponent
   ]

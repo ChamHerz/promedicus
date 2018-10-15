@@ -14,7 +14,11 @@ import {
   MatNativeDateModule,
   MatSelectModule,
   MatCardModule, 
-  MatListModule, MatGridListModule, MatMenuModule } from '@angular/material';
+  MatListModule,
+  MatCheckboxModule,
+  MatTableModule,
+  MatGridListModule,
+  MatMenuModule } from '@angular/material';
 import { TurnoNewComponent } from './turno-new/turno-new.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatosPacienteComponent } from './datos-paciente/datos-paciente.component';
@@ -37,6 +41,8 @@ import { DatosPacienteComponent } from './datos-paciente/datos-paciente.componen
     MatSelectModule,
     ReactiveFormsModule,
     MatGridListModule,
+    MatCheckboxModule,
+    MatTableModule,
     MatMenuModule
   ],
   declarations: [HomePacienteComponent, TurnoNewComponent, DatosPacienteComponent],

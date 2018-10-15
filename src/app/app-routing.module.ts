@@ -14,6 +14,7 @@ import { AuthPacienteGuard } from './core/guards/auth-paciente.guard';
 import { AuthPacienteChildrenGuard } from './core/guards/auth-paciente-children.guard';
 import { HomeMedicoComponent } from './medico/home-medico/home-medico.component';
 import { HomeAdminComponent } from './admin/home-admin/home-admin.component';
+import { AgendaComponent } from './medico/agenda/agenda.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
@@ -27,7 +28,11 @@ const routes: Routes = [
   ],
    component: HomePacienteComponent,  },
    { path: 'medico',
-   component: HomeMedicoComponent
+   component: HomeMedicoComponent,
+   children: [
+     {path: 'agenda', component: AgendaComponent},
+     {path: '**', redirectTo: ''}
+   ]
    },
   { path: 'admin',
    component: HomeAdminComponent
@@ -37,8 +42,8 @@ const routes: Routes = [
   { path: 'register-email/:enlace', component: RegisterEmailComponent },
   { path: 'register-pass', component: RegisterPassComponent},
   { path: 'reset-pass/:enlace', component: ResetPassComponent},
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home'}
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login'}
 ];
 
 @NgModule({

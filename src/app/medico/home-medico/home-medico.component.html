@@ -8,7 +8,7 @@
     [opened]="!(isHandset$ | async)">
     <mat-toolbar color="primary">Médico</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Crear A. de Turnos</a>
+      <a mat-list-item href="medico/agenda">Crear A. de Turnos</a>
       <a mat-list-item href="#">Modificar A. de Turnos</a>
       <a mat-list-item href="#">Actualizar Historia C.</a>
       <a mat-list-item href="#" (click)="this.logout()">Logout</a>
@@ -27,5 +27,6 @@
       <span>{{medico.nombre + ' ' + medico.apellido}}</span>
     </mat-toolbar>
     <!-- Add Content Here -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

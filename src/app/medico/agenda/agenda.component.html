@@ -1,0 +1,110 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Crear agenda de turnos</h1>
+  <form id="form-new-turno" [formGroup]="formNewTurno" (submit)="openDialog()">
+    <mat-grid-list cols="6" rowHeight="100px">
+      <mat-grid-tile [colspan]="grid.desde.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput [min]="minDate" [matDatepicker]="pickerDesde" placeholder="Desde" formControlName="desde">
+              <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+              <mat-datepicker #pickerDesde></mat-datepicker>
+            </mat-form-field>   
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.hasta.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput [min]="maxDate" [matDatepicker]="pickerHasta" placeholder="Hasta" formControlName="hasta">
+              <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+              <mat-datepicker #pickerHasta></mat-datepicker>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.duracion.col" [rowspan]="grid.duracion.row">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <mat-select placeholder="Duracion" formControlName="duracionControl" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let duracion of duraciones" [value]="duracion">
+                  {{duracion.tiempo + ' minutos'}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formNewTurno.controls.duracionControl.hasError('required')">Ingrese Duracion</mat-error>
+              <mat-hint></mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.tablaTurnos.col" [rowspan]="grid.tablaTurnos.row">
+        <mat-card class="dashboard-card">
+          <div class="tabla-material">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef> No. </th>
+              <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="Desde">
+              <th mat-header-cell *matHeaderCellDef> Desde </th>
+              <td mat-cell *matCellDef="let element"> {{element.desde}} </td>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="Hasta">
+              <th mat-header-cell *matHeaderCellDef> Hasta </th>
+              <td mat-cell *matCellDef="let element"> {{element.hasta}} </td>
+            </ng-container>
+                 
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="selection.toggle(row)">
+            </tr>
+          </table>
+        </div>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.dia.col" [rowspan]="grid.dia.row">
+        <mat-card class="dashboard-card mat-card-dias">
+          <mat-card-content class="dashboard-card-content">
+            <mat-selection-list #diasList>
+              <mat-list-option *ngFor="let dia of dias" checkboxPosition="before" [value]="dia">
+                {{dia.dia}}
+              </mat-list-option>
+            </mat-selection-list>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.botonConfirmar.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <button mat-raised-button color="primary" form="form-new-turno" [disabled]="formNewTurno.invalid">Confirmar</button>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>

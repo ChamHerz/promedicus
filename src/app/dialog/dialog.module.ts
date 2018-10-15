@@ -3,19 +3,23 @@ import { CommonModule } from '@angular/common';
 import { SimpleDialogComponent } from './simple-dialog/simple-dialog.component';
 import { 
   MatDialogModule,
-  MatButtonModule
+  MatButtonModule,
+  MatTableModule
  } from '@angular/material';
+import { TableTurnoDialogComponent } from './table-turno-dialog/table-turno-dialog.component';
 
 @NgModule({
   imports: [
     CommonModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule
   ],
-  declarations: [SimpleDialogComponent],
-  entryComponents: [SimpleDialogComponent],
+  declarations: [SimpleDialogComponent, TableTurnoDialogComponent],
+  entryComponents: [SimpleDialogComponent, TableTurnoDialogComponent],
   exports: [
-    SimpleDialogComponent
+    SimpleDialogComponent,
+    TableTurnoDialogComponent
   ]
 })
 export class DialogModule { }
