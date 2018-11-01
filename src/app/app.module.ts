@@ -23,6 +23,7 @@ import { DialogModule } from './dialog/dialog.module';
 import { RegisterEmailComponent } from './register-email/register-email.component';
 import { RegisterPassComponent } from './register-pass/register-pass.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
     MedicoModule,
     AdminModule
   ],
-  providers: [ ],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

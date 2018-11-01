@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
     return path[nivelPermiso];
   }
 
-  private goRegister(): void{
+  public goRegister(): void{
     this.router.navigate(['/register']);
   }
 

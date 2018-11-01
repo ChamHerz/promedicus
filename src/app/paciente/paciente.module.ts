@@ -45,7 +45,10 @@ import { DatosPacienteComponent } from './datos-paciente/datos-paciente.componen
     MatTableModule,
     MatMenuModule
   ],
-  declarations: [HomePacienteComponent, TurnoNewComponent, DatosPacienteComponent],
+  declarations: [
+    HomePacienteComponent, 
+    TurnoNewComponent, 
+    DatosPacienteComponent],
   exports: [
     HomePacienteComponent,
     TurnoNewComponent,
