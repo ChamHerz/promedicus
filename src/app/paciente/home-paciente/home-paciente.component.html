@@ -9,9 +9,8 @@
     <mat-toolbar color="primary">Promedicus</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item [routerLink]="['turno-new']" (click)="(screenWidth > 600) ? this.drawer.open() : this.drawer.close()">Solicitar Turno</a>
-      <a mat-list-item href="#">Listar Turno</a>
-      <a mat-list-item href="#">Historial de Turnos</a>
-      <a mat-list-item href="#" (click)="this.openDialog()">Mis Datos Personales</a>
+      <a mat-list-item [routerLink]="['turno-paciente']">Listar Turno</a>
+      <a mat-list-item [routerLink]="['datos-paciente']">Mis Datos Personales</a>
       <a mat-list-item href="#" (click)="this.logout()">Logout</a>
     </mat-nav-list>
   </mat-sidenav>

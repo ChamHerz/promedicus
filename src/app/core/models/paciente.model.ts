@@ -1,10 +1,12 @@
 export class Paciente {
-    public dni: String;
-    public nombre: String;
-    public apellido: String;
-    public direccion: String;
-    public telefono: String;
-    public email: String;
+    public dni: string;
+    public nombre: string;
+    public apellido: string;
+    public direccion: string;
+    public telefono: string;
+    public email: string;
+    public idObraSocial?: number;
+    public estadoCivil?: number;
 
     constructor() {
         this.dni = "";
@@ -13,5 +15,7 @@ export class Paciente {
         this.direccion = "";
         this.telefono = "";
         this.email = "";
+        this.idObraSocial = -1;
+        this.estadoCivil = -1;
     }
 }

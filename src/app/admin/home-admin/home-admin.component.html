@@ -6,11 +6,12 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="!(isHandset$ | async)">
-    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-toolbar color="primary">Administrador</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a mat-list-item [routerLink]="['listar-usuarios']">Listar Usuarios</a>
+      <a mat-list-item [routerLink]="['listar-obra-sociales']">Listar Obra Sociales</a>
+      <a mat-list-item href="#">Crear Obra Social</a>
+      <a mat-list-item href="#">Logout</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -23,8 +24,10 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>promedicus</span>
+      <span>{{admin.nombre + ' ' + admin.apellido}}</span>
     </mat-toolbar>
-    <!-- Add Content Here -->
+    <div class="myDiv">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

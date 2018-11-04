@@ -17,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { PacienteModule } from './paciente/paciente.module';
 import { MedicoModule } from './medico/medico.module';
+import { SecretariaModule } from './secretaria/secretaria.module';
 import { AdminModule } from './admin/admin.module';
 import { RegisterComponent } from './register/register.component';
 import { DialogModule } from './dialog/dialog.module';
@@ -45,6 +46,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     MatInputModule,
     MatButtonModule,
     PacienteModule,
+    SecretariaModule,
     MatDialogModule,
     DialogModule,
     MedicoModule,

@@ -1,5 +1,5 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
+  <h1 class="mat-h1">Solicitar Turno</h1>
   <form id="form-new-turno" [formGroup]="formNewTurno" (submit)="consultarTurno()">
     <mat-grid-list cols="6" rowHeight="100px">
       <mat-grid-tile [colspan]="grid.desde.col" [rowspan]="1">
@@ -118,6 +118,13 @@
               </tr>
             </table>
           </div>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.botonSolicitar.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <button mat-raised-button color="primary" (click)="solicitarTurno()">Confirmar</button>
+          </mat-card-content>
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>

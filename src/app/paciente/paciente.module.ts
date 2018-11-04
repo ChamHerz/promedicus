@@ -22,6 +22,7 @@ import {
 import { TurnoNewComponent } from './turno-new/turno-new.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatosPacienteComponent } from './datos-paciente/datos-paciente.component';
+import { TurnoPacienteComponent } from './turno-paciente/turno-paciente.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,7 @@ import { DatosPacienteComponent } from './datos-paciente/datos-paciente.componen
   declarations: [
     HomePacienteComponent, 
     TurnoNewComponent, 
-    DatosPacienteComponent],
+    DatosPacienteComponent, TurnoPacienteComponent],
   exports: [
     HomePacienteComponent,
     TurnoNewComponent,

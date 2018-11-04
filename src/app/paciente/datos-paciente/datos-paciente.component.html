@@ -1,12 +1,140 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="6" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <h1 class="mat-h1">Datos del Paciente</h1>
+  <form id="form-new" [formGroup]="formGroup" (submit)="botonRegistrar()">
+    <mat-grid-list cols="6" rowHeight="100px">
+      <mat-grid-tile [colspan]="grid.nombre.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field >
+              <input matInput placeholder="Nombre" formControlName="nombre" required>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.apellido.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Apellido" formControlName="apellido" required>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.dni.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field (click)="disabled=true" (mouseout)="disabled=true">
+              <input matInput placeholder="DNI" formControlName="dni" type="number" [attr.disabled]="disabled?'':null">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.espacioDos.col" [rowspan]="1"></mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.direccion.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Direccion" formControlName="direccion" type="text">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.estadoCivil.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <mat-select placeholder="Estado Civl" formControlName="estadoCivil">
+                <mat-option [value]="-1">No informa</mat-option>
+                <mat-option *ngFor="let estadoCivil of listaEstadoCiviles" [value]="estadoCivil.idEstadoCivil">
+                  {{estadoCivil.estadoCivil}}
+                </mat-option>
+              </mat-select>
+              <mat-hint></mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.telefono.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Telefono" formControlName="telefono" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.obraSocial.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <mat-select placeholder="Obra Social" formControlName="idObraSocial">
+                <mat-option *ngFor="let obraSocial of listaObraSociales" [value]="obraSocial.idObraSocial" [disabled]="!obraSocial.activa">
+                  {{obraSocial.sigla}}
+                </mat-option>
+              </mat-select>
+              <mat-hint></mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <div formGroupName="emailGroup">
+        <mat-grid-tile [colspan]="grid.email.col" [rowspan]="1">
+          <mat-card class="dashboard-card">
+            <mat-card-content class="dashboard-card-content">
+              <mat-form-field (click)="disabled=true" (mouseout)="disabled=true">
+                <input matInput placeholder="Email" formControlName="email" [attr.disabled]="disabled?'':null">
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="grid.emailConfirm.col" [rowspan]="1">
+          <mat-card class="dashboard-card">
+            <mat-card-content class="dashboard-card-content">
+              <mat-form-field (click)="disabled=true" (mouseout)="disabled=true">
+                <input matInput placeholder="Confirmar Email" formControlName="emailConfirm" [errorStateMatcher]="confirmValidParentMatcher" [attr.disabled]="disabled?'':null">
+                <mat-error *ngIf="formGroup.controls.emailGroup.hasError('childrenNotEqual')">No coincide el email</mat-error>
+                <mat-hint></mat-hint>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </div>
+      <div formGroupName="passGroup">
+        <mat-grid-tile [colspan]="grid.pass.col" [rowspan]="1">
+          <mat-card class="dashboard-card">
+            <mat-card-content class="dashboard-card-content">
+              <mat-form-field (click)="disabled=true" (mouseout)="disabled=true">
+                <input matInput type="password" placeholder="Password" formControlName="pass" [attr.disabled]="disabled?'':null">
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="grid.passConfirm.col" [rowspan]="1">
+          <mat-card class="dashboard-card">
+            <mat-card-content class="dashboard-card-content">
+              <mat-form-field (click)="disabled=true" (mouseout)="disabled=true">
+                <input matInput type="password" placeholder="Confirmar Password" formControlName="passConfirm" [errorStateMatcher]="confirmValidParentMatcher" [attr.disabled]="disabled?'':null">
+                <mat-error *ngIf="formGroup.controls.passGroup.hasError('childrenNotEqual')">No coincide la password</mat-error>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </div>
+      <mat-grid-tile [colspan]="grid.espacioFinal.col" [rowspan]="1"></mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.botonCambiarPass.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <button mat-raised-button color="primary" type="button" (click)="cambiarPass()">Cambiar Password</button>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="grid.botonSacarTurno.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <button mat-raised-button [color]="'success'" form="form-new" type="submit" [disabled]="formGroup.invalid">Modificar</button>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
 </div>

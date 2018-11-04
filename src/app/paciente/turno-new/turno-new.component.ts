@@ -5,6 +5,10 @@ import { Especialidad } from '../../core/models/especialidad.model';
 import { EspecilidadService } from '../../core/services/especilidad.service';
 import { Medico } from '../../core/models/medico.model';
 import { MedicoService } from '../../medico/medico.service';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { SimpleDialogComponent } from '../../dialog/simple-dialog/simple-dialog.component';
+import { PacienteService } from '../paciente.service';
+import { Router } from '@angular/router';
 
 //tabla
 import {MatTableDataSource} from '@angular/material';
@@ -14,6 +18,7 @@ import { TurnoConsulta } from '../../core/interface/turno-consulta';
 
 //tipo calendario
 import {DateAdapter} from '@angular/material/core';
+import { Paciente } from '../../core/models/paciente.model';
 
 export interface FuturosTurnos {
   position: number;
@@ -22,6 +27,7 @@ export interface FuturosTurnos {
   rango: number;
   especialidad: string;
   medico: string;
+  idTurno: number;
 }
 
 // const rangoHorario: FuturosTurnos[] = [
@@ -45,12 +51,14 @@ export class TurnoNewComponent {
     especialidad: {col: 1, row: 1},
     medico: {col: 2, row: 1},
     botonConfirmar: {col: 1, row: 1},
-    tablaTurnos: {col: 6, row: 4}
+    tablaTurnos: {col: 6, row: 4},
+    botonSolicitar: {col: 1, ro: 1}
   }
 
   public formNewTurno: FormGroup;
   public especialidades: Especialidad[];
   public medicos: Medico[];
+  public paciente: Paciente;
 
   //table
   futurosTurnos = new Array<FuturosTurnos>();
@@ -75,7 +83,6 @@ export class TurnoNewComponent {
   oneSelect(fila){
     this.selection.clear();
     this.selection.toggle(fila);
-    console.log(fila);
   }
 
   layoutChanges = this.breakpointObserver.observe(Breakpoints.Handset).subscribe(result => {
@@ -87,7 +94,8 @@ export class TurnoNewComponent {
         especialidad: {col: 6, row: 1},
         medico: {col: 6, row: 1},
         botonConfirmar: {col: 6, row: 1},
-        tablaTurnos: {col: 6, row: 4}
+        tablaTurnos: {col: 6, row: 4},
+        botonSolicitar: {col: 1, ro: 1}
       }
       return;
     }
@@ -98,7 +106,8 @@ export class TurnoNewComponent {
       especialidad: {col: 1, row: 1},
       medico: {col: 2, row: 1},
       botonConfirmar: {col: 1, row: 1},
-      tablaTurnos: {col: 6, row: 4}
+      tablaTurnos: {col: 6, row: 4},
+      botonSolicitar: {col: 1, ro: 1}
     }
   });
 
@@ -108,11 +117,19 @@ export class TurnoNewComponent {
     private adapter: DateAdapter<any>,
     private especialidadService: EspecilidadService,
     private medicoService: MedicoService,
-    private turnoService: TurnoService
+    private turnoService: TurnoService,
+    private dialog: MatDialog,
+    private pacienteService: PacienteService,
+    private router: Router
     ) {}
 
   ngOnInit() {
     this.adapter.setLocale('mx');
+
+    let unToken = this.pacienteService.getCurrentToken();
+    this.pacienteService.get(unToken).subscribe(
+      data => this.correctPaciente(data)
+    )
 
     this.especialidadService.getEspecialidades().subscribe(
       data => this.correctEspecialidades(data)
@@ -130,6 +147,10 @@ export class TurnoNewComponent {
       especialidadControl: ['',[ Validators.required]],
       medicoControl: ['',[]]
     });
+  }
+
+  correctPaciente(data: Paciente) {
+    this.paciente = data;
   }
 
   correctMedicos(data: Medico[]) {
@@ -166,11 +187,68 @@ export class TurnoNewComponent {
         hora: unDiaHora.toLocaleTimeString(),
         rango: unElemento.duracion,
         especialidad: unElemento.especialidad.descripcion,
-        medico: unElemento.medico.nombre + " " + unElemento.medico.apellido
+        medico: unElemento.medico.nombre + " " + unElemento.medico.apellido,
+        idTurno: unElemento.idTurno
       })
-      console.log(this.futurosTurnos);
+      //console.log(this.futurosTurnos);
     })
 
     this.dataSource.data = this.futurosTurnos;
+  }
+
+  solicitarTurno() {
+    
+    if (this.selection.selected.length == 0) {
+      this.openDialogVacio();
+      return false;
+    }
+    else {
+      let turnoSeleccionado: FuturosTurnos;
+      turnoSeleccionado = this.selection.selected[0];
+      console.log(turnoSeleccionado.idTurno);
+
+      let dni = Number(this.paciente.dni);
+
+      this.turnoService.solicitarTurno(turnoSeleccionado.idTurno,dni).subscribe(
+        data => this.resultadoSolicitudTurno(data)
+      )
+      //console.log(this.paciente);
+    }
+
+    return false;
+  }
+
+  resultadoSolicitudTurno(data: Boolean) {
+    if (data) {
+      this.openDialogExito();
+    }
+  }
+
+  openDialogVacio(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.data = { 
+      title: "Resultado de Solicitud de Turno",
+      body: "Tiene que seleccionar al menos un turno "
+    };
+    const unDialgo = this.dialog.open(SimpleDialogComponent,dialogConfig);
+
+    unDialgo.afterClosed().subscribe(result => {
+      //this.goToLogin()
+    });
+  }
+
+  openDialogExito(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.data = { 
+      title: "Resultado de Solicitud de Turno",
+      body: "Te enviamos un Email con los datos del turno, Gracias"
+    };
+    const unDialgo = this.dialog.open(SimpleDialogComponent,dialogConfig);
+
+    unDialgo.afterClosed().subscribe(result => {
+      this.router.navigate(['/paciente/turno-paciente']);
+    });
   }
 }

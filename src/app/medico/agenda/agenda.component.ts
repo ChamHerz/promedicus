@@ -155,9 +155,8 @@ export class AgendaComponent {
 
   }
 
-  correctMedico(data: any) {
-    this.medico = new Medico();
-    this.medico.setFromAny(data);
+  correctMedico(data: Medico) {
+    this.medico = data;
     console.log(this.medico);
   }
 
@@ -189,7 +188,7 @@ export class AgendaComponent {
            duracion: unElemento.duracionTurno,
            fechaHora: unElemento.fechaComienzo,
            estadoTurno: EstadoTurno.Disponible,
-           idEspecialidad: this.medico.especialidad.idEspecialidad
+           idEspecialidad: this.medico.especialidad
          })
       });
 

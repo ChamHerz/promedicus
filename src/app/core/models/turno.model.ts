@@ -7,7 +7,7 @@ export class Turno {
     public duracion: number;
     public fechaHora: Date;
     public estadoTurno: EstadoTurno;
-    public idEspecialidad: number;
+    public idEspecialidad: Number;
     public medico?: Medico;
     public especialidad?: Especialidad;
     public idAgendasTurnos?: number;
