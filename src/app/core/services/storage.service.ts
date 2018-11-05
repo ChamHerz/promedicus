@@ -62,6 +62,18 @@ export class StorageService {
     return (this.getNivelUsuario() == NivelUsuario.Paciente) ? true : false;
   }
 
+  isSecretaria(): boolean {
+    return (this.getNivelUsuario() == NivelUsuario.Secretaria) ? true : false;
+  }
+
+  isMedico(): boolean {
+    return (this.getNivelUsuario() == NivelUsuario.Medico) ? true : false;
+  }
+
+  isAdministrador(): boolean {
+    return (this.getNivelUsuario() == NivelUsuario.Administrador) ? true : false;
+  }
+
   logout(): void {
     this.removeCurrenteSession();
     this.route.navigate(['/login']);

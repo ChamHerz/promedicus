@@ -24,6 +24,7 @@ import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.compo
 import { ListarObraSocialesComponent } from './listar-obra-sociales/listar-obra-sociales.component';
 import { MedicoCrearComponent } from './medico-crear/medico-crear.component';
 import { MedicoModificarComponent } from './medico-modificar/medico-modificar.component';
+import { SecretariaModificarComponent } from './secretaria-modificar/secretaria-modificar.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,7 @@ import { MedicoModificarComponent } from './medico-modificar/medico-modificar.co
     MatTableModule,
     ReactiveFormsModule
   ],
-  declarations: [HomeAdminComponent, ListarUsuariosComponent, ListarObraSocialesComponent, MedicoCrearComponent, MedicoModificarComponent],
+  declarations: [HomeAdminComponent, ListarUsuariosComponent, ListarObraSocialesComponent, MedicoCrearComponent, MedicoModificarComponent, SecretariaModificarComponent],
   exports: [HomeAdminComponent]
 })
 export class AdminModule { }

@@ -13,6 +13,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { HomePacienteComponent } from './paciente/home-paciente/home-paciente.component';
 import { AuthPacienteGuard } from './core/guards/auth-paciente.guard';
 import { AuthPacienteChildrenGuard } from './core/guards/auth-paciente-children.guard';
+import { MedicoGuard } from './core/guards/medico.guard';
 import { HomeMedicoComponent } from './medico/home-medico/home-medico.component';
 import { HomeAdminComponent } from './admin/home-admin/home-admin.component';
 import { HomeSecretariaComponent } from './secretaria/home-secretaria/home-secretaria.component';
@@ -30,6 +31,10 @@ import { PacienteListarComponent } from './medico/paciente-listar/paciente-lista
 import { HistoriaClinicaComponent } from './medico/historia-clinica/historia-clinica.component';
 import { MisTurnosComponent } from './medico/mis-turnos/mis-turnos.component';
 import { MedicoMirarComponent } from './secretaria/medico-mirar/medico-mirar.component';
+import { SecretariaModificarComponent } from './admin/secretaria-modificar/secretaria-modificar.component';
+import { SecretariaGuard } from './core/guards/secretaria.guard';
+import { SecretariaChildrenGuard } from './core/guards/secretaria-children.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
@@ -44,6 +49,7 @@ const routes: Routes = [
   ],
    component: HomePacienteComponent,  },
    { path: 'medico',
+   canActivate: [MedicoGuard],
    component: HomeMedicoComponent,
    children: [
      {path: 'agenda', component: AgendaComponent},
@@ -54,6 +60,8 @@ const routes: Routes = [
    ]
    },
   { path: 'secretaria',
+   canActivate: [SecretariaGuard],
+   canActivateChild: [SecretariaChildrenGuard],
    component: HomeSecretariaComponent,
    children: [
      {path: 'listar-pacientes', component: ListarPacientesComponent},
@@ -67,6 +75,7 @@ const routes: Routes = [
   },
   { path: 'admin',
    component: HomeAdminComponent,
+   canActivate: [AdminGuard],
    children: [
      {path: 'listar-usuarios', component: ListarUsuariosComponent},
      {path: 'listar-obra-sociales', component: ListarObraSocialesComponent},
@@ -74,6 +83,7 @@ const routes: Routes = [
      {path: 'paciente', component: PacienteCrearComponent},
      {path: 'medico/:email', component: MedicoModificarComponent},
      {path: 'medico', component: MedicoCrearComponent},
+     {path: 'secretaria/:email', component: SecretariaModificarComponent},
      {path: '**', redirectTo: ''}
    ]
   },

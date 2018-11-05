@@ -223,7 +223,9 @@ export class ListarUsuariosComponent {
       if (usuarioSeleccionado.permiso == "Paciente") {
         this.router.navigate(['/admin/paciente',usuarioSeleccionado.email]);
       }
-
+      if (usuarioSeleccionado.permiso == "Secretaria") {
+        this.router.navigate(['/admin/secretaria',usuarioSeleccionado.email]);
+      }
       if (usuarioSeleccionado.permiso == "Medico") {
         this.router.navigate(['/admin/medico',usuarioSeleccionado.email]);
       }
@@ -239,6 +241,9 @@ export class ListarUsuariosComponent {
     if (this.formNewUser.value.usuario == 2) {
       this.router.navigate(['/admin/medico']);
     }
+    // if (this.formNewUser.value.usuario == 1) {
+    //   this.router.navigate(['/admin/secretaria']);
+    // }
   }
 
   openDialogVacio(){

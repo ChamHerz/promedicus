@@ -14,17 +14,19 @@ export class MedicoSecretariaService {
     private config: ConfigService
   ) { }
 
-  // public newMedicoObraSocial(medicoObraSociales: MedicoObraSocial[]): Observable<Boolean> {
-  //   return this.http.post<Boolean>(this.config.pathServices + 'medico-obra-social/new-medico-obra-social',medicoObraSociales);
-  // }
+  public getBySecretary(nroLegajo: number): Observable<MedicoSecretaria[]> {
+    return this.http.get<MedicoSecretaria[]>(this.config.pathServices + 'medico-secretaria/get-by-secretary/' + nroLegajo);
+  }
+
+  public setBySecretary(
+    nroLegajoSecretaria: number,
+    medicoSecretaria: MedicoSecretaria[]): Observable<Boolean> {
+    return this.http.post<Boolean>(this.config.pathServices + 'medico-secretaria/set-by-secretary/' + nroLegajoSecretaria, medicoSecretaria);
+  }
 
   public getByMedico(nroLegajo: number): Observable<MedicoSecretaria[]> {
     return this.http.get<MedicoSecretaria[]>(this.config.pathServices + 'medico-secretaria/get-by-medico/' + nroLegajo);
   }
-
-  // public setByMedico(medicoSecretaria: MedicoSecretaria[]): Observable<Boolean> {
-  //   return this.http.post<Boolean>(this.config.pathServices + 'medico-secretaria/set-by-medico', medicoSecretaria);
-  // }
 
   public setByMedico(
     nroLegajoMedico: number,

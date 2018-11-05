@@ -30,6 +30,10 @@ export class SecretariaService {
     return this.http.get<Secretaria[]>(this.config.pathServices + 'secretaria/get-all-names');
   }
 
+  public updateFromAdmin(secretaria: Secretaria): Observable<Boolean> {
+    return this.http.put<Boolean>(this.config.pathServices + 'secretaria/update-from-admin',secretaria);
+  }
+
   public logout(): void{
     this.authenticationService.logout().subscribe(
         response => {if(response) {this.storageService.logout();}}
