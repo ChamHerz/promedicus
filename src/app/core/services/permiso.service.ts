@@ -13,6 +13,12 @@ export class PermisoService {
     {idPermiso: 3, nombrePermiso: "Administrador" }
   ]
 
+  public listaPermisosSinAdmin: Permiso[] = [
+    {idPermiso: 0, nombrePermiso: "Paciente" },
+    {idPermiso: 1, nombrePermiso: "Secretaria" },
+    {idPermiso: 2, nombrePermiso: "Medico" }
+  ]
+
   public getPermiso(idPermiso: number):String {
     let index = this.listaPermisos.findIndex(
       x => idPermiso == x.idPermiso

@@ -3,7 +3,7 @@ import { Breakpoints, BreakpointState, BreakpointObserver } from '@angular/cdk/l
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Especialidad } from '../../core/models/especialidad.model';
 import { Medico } from '../../core/models/medico.model';
-import { PacienteService } from '../paciente.service';
+import { MedicoService } from '../../medico/medico.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SimpleDialogComponent } from '../../dialog/simple-dialog/simple-dialog.component';
 import { Router } from '@angular/router';
@@ -32,11 +32,11 @@ export interface FuturosTurnos {
 }
 
 @Component({
-  selector: 'app-paciente/turno-paciente',
-  templateUrl: './turno-paciente.component.html',
-  styleUrls: ['./turno-paciente.component.css']
+  selector: 'app-medico/mis-turnos',
+  templateUrl: './mis-turnos.component.html',
+  styleUrls: ['./mis-turnos.component.css']
 })
-export class TurnoPacienteComponent {
+export class MisTurnosComponent {
   minDate: Date = new Date();
   maxDate: Date = new Date();
 
@@ -54,7 +54,7 @@ export class TurnoPacienteComponent {
   public formNewTurno: FormGroup;
   public especialidades: Especialidad[];
   public medicos: Medico[];
-  public paciente: Paciente;
+  public medico: Medico;
 
   //table
   futurosTurnos = new Array<FuturosTurnos>();
@@ -117,7 +117,7 @@ export class TurnoPacienteComponent {
     private adapter: DateAdapter<any>,
     private turnoService: TurnoService,
     private estadoTurnoService: EstadoTurnoService,
-    private pacienteService: PacienteService,
+    private medicoService: MedicoService,
     private dialog: MatDialog,
     private router: Router
     ) {}
@@ -127,13 +127,12 @@ export class TurnoPacienteComponent {
 
     this.adapter.setLocale('mx');
 
-    let unToken = this.pacienteService.getCurrentToken();
+    let unToken = this.medicoService.getCurrentToken();
     console.log("token",unToken);
-    this.pacienteService.get(unToken).subscribe(
-      data => this.correctPaciente(data)
-    )
 
-    this.maxDate.setDate(this.minDate.getDate() + 1);
+    this.medicoService.getMedico(unToken).subscribe(
+      data => this.correctMedico(data)
+    )
 
     this.formNewTurno = this.formBuilder.group({
       estadoTurnoControl: [1]
@@ -141,22 +140,22 @@ export class TurnoPacienteComponent {
 
   }
 
-  correctPaciente(data: Paciente) {
-    this.paciente = data;
-    let dni = Number(this.paciente.dni);
-    this.realizarConsultarTurnos(dni,1);
+  correctMedico(data: Medico) {
+    this.medico = data;
+    let nroLegajo = Number(this.medico.nroLegajo);
+    this.realizarConsultarTurnos(nroLegajo,1);
   }
 
-  realizarConsultarTurnos(dni: number, estado: number){
-    this.turnoService.getTurnosDePaciente(dni,estado).subscribe(
+  realizarConsultarTurnos(nroLegajo: number, estado: number){
+    this.turnoService.getTurnosDeMedico(nroLegajo,estado).subscribe(
       data => this.turnosObtenidos(data)
     );
   }
 
   consultarTurno() {
     console.log("consultar turno",this.formNewTurno.value.estadoTurnoControl);
-    let dni = Number(this.paciente.dni);
-    this.realizarConsultarTurnos(dni,this.formNewTurno.value.estadoTurnoControl);
+    let nroLegajo = Number(this.medico.nroLegajo);
+    this.realizarConsultarTurnos(nroLegajo,this.formNewTurno.value.estadoTurnoControl);
   }
 
   consultarTurnoRest(turnoConsulta: TurnoConsulta) {
@@ -186,24 +185,24 @@ export class TurnoPacienteComponent {
     this.dataSource.data = this.futurosTurnos;
   }
 
-  cancelarTurno() {
-    if (this.selection.selected.length == 0) {
-      this.openDialogVacio();
-      return false;
-    }
-    else {
-      let turnoSeleccionado: FuturosTurnos;
-      turnoSeleccionado = this.selection.selected[0];
-      console.log(turnoSeleccionado.idTurno);
+  // cancelarTurno() {
+  //   if (this.selection.selected.length == 0) {
+  //     this.openDialogVacio();
+  //     return false;
+  //   }
+  //   else {
+  //     let turnoSeleccionado: FuturosTurnos;
+  //     turnoSeleccionado = this.selection.selected[0];
+  //     console.log(turnoSeleccionado.idTurno);
 
-      let dni = Number(this.paciente.dni);
+  //     let dni = Number(this.paciente.dni);
 
-      this.turnoService.cancelarTurno(turnoSeleccionado.idTurno,dni).subscribe(
-        data => this.resultadoSolicitudTurno(data)
-      )
+  //     this.turnoService.cancelarTurno(turnoSeleccionado.idTurno,dni).subscribe(
+  //       data => this.resultadoSolicitudTurno(data)
+  //     )
 
-    }
-  }
+  //   }
+  // }
 
   resultadoSolicitudTurno(data: Boolean) {
     if (data) {

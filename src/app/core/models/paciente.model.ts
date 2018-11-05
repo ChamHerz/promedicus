@@ -7,6 +7,7 @@ export class Paciente {
     public email: string;
     public idObraSocial?: number;
     public estadoCivil?: number;
+    public sexo?: string;
 
     constructor() {
         this.dni = "";

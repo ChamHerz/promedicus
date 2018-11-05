@@ -237,7 +237,7 @@ export class PacienteTurnoComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.data = { 
-      title: "Resultado de Cancelacion de Turno",
+      title: "Resultado de Turno",
       body: "turno " + estado + ", Gracias"
     };
     const unDialgo = this.dialog.open(SimpleDialogComponent,dialogConfig);

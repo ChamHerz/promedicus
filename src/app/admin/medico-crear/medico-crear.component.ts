@@ -57,53 +57,7 @@ export class MedicoCrearComponent {
   public listaEspecialidades: Especialidad[];
   public secretarias = new Array<number>();
   public obraSociales = new Array<number>();
-  //public listaMedicoObraSocial = new Array<MedicoObraSocial>();
-  
-  public token: String;
-
-  layoutChanges = this.breakpointObserver.observe(Breakpoints.Handset).subscribe(result => {
-    if(result.matches){
-      //celular
-      this.grid = {
-        nombre: {col: 6, row: 1},
-        apellido: {col: 6, row: 1},
-        dni: {col: 6, row: 1},
-        espacioDos: {col: 6, row: 1},
-        direccion: {col: 6, row: 1},
-        nroLegajo: {col: 6, row: 1},
-        especialidad: {col: 6, row: 1},
-        secretarias: {col: 2, row: 1},
-        telefono: {col: 6, row: 1},
-        obraSocial: {col: 6, row: 1},
-        email: {col:6, row: 1},
-        emailConfirm: {col:6, row: 1},
-        pass: {col:6, row: 1},
-        passConfirm: {col:6, row: 1},
-        espacioFinal: {col: 6, row: 1},
-        botonSacarTurno: {col:6, row: 1}
-      }
-      return;
-    }
-    //escritorio
-    this.grid = {
-      nombre: {col: 3, row: 1},
-      apellido: {col: 3, row: 1},
-      dni: {col: 1, row: 1},
-      espacioDos: {col: 2, row: 1},
-      direccion: {col: 2, row: 1},
-      nroLegajo: {col: 1, row: 1},
-      especialidad: {col: 1, row: 1},
-      secretarias: {col: 2, row: 1},
-      telefono: {col: 2, row: 1},
-      obraSocial: {col: 2, row: 1},
-      email: {col:3, row: 1},
-      emailConfirm: {col:3, row: 1},
-      pass: {col:3, row: 1},
-      passConfirm: {col:3, row: 1},
-      espacioFinal: {col: 5, row: 1},
-      botonSacarTurno: {col:1, row: 1}
-    }
-  });
+  public nroLegajo: number;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -121,19 +75,8 @@ export class MedicoCrearComponent {
     ) {}
 
   ngOnInit() {
-    if (this.activeRoute.snapshot.params.email) {
-      this.token = this.activeRoute.snapshot.params.email;
-    }
-    else {
-      this.token = this.medicoService.getCurrentToken();
-    }
-
-    this.usuarioService.get(this.token).subscribe(
-      data => this.correctCargaUsuario(data)
-    )
-
-    this.medicoService.getMedico(this.token).subscribe(
-      data => this.correctCargaMedico(data)
+    this.medicoService.getNewNroLegajo().subscribe(
+      data => this.cargarNewNroLegajo(data)
     )
 
     this.obraSocialService.getObraSociales().subscribe(
@@ -153,81 +96,33 @@ export class MedicoCrearComponent {
       apellido: ['', [Validators.required]],
       dni: ['', [Validators.required]],
       direccion: [''],
-      nroLegajo: new FormControl({value: 1, disabled: true}, Validators.required),
+      nroLegajo: new FormControl({value: 1, disabled: true}),
       especialidad: ['',[Validators.required]],
       telefono: [''],
       secretarias: [''],
       obraSocial: [''],
       emailGroup: this.formBuilder.group({
-        email: new FormControl({value: "", disabled: true}, Validators.required),
-        emailConfirm: new FormControl({value: "", disabled: true}, Validators.required)
-      }),
+        email: ['', [
+          Validators.required,
+          Validators.email
+        ]],
+        emailConfirm: ['', [Validators.required]],
+      }, { validator: CustomValidators.childrenEqual}),
       passGroup: this.formBuilder.group({
-        pass: new FormControl({value: 1, disabled: true}, Validators.required),
-        passConfirm: new FormControl({value: 1, disabled: true}, Validators.required),
-      }),
+        pass: ['', [
+          Validators.required
+        ]],
+        passConfirm: ['', [Validators.required]],
+      }, { validator: CustomValidators.childrenEqual}),
     });
 
   }
 
-  correctCargaUsuario(data: User) {
-    this.usuario = data;
+  cargarNewNroLegajo(nroLegajo: number) {
+    this.nroLegajo = nroLegajo;
     this.formGroup.patchValue({
-      "nombre":this.usuario.nombre,
-      "apellido":this.usuario.apellido,
-      "emailGroup": {
-        "email": this.usuario.email,
-        "emailConfirm": this.usuario.email
-      },
-      "passGroup": {
-        "pass": "***************",
-        "passConfirm": "***************",
-      }
+      "nroLegajo": nroLegajo
     })
-  }
-
-  correctCargaMedico(data: Medico) {
-    this.medico = data;
-
-    this.formGroup.patchValue({
-      "dni": this.medico.dni,
-      "telefono": this.medico.telefono,
-      "direccion": this.medico.direccion,
-      "nroLegajo": this.medico.nroLegajo,
-      "especialidad": this.medico.especialidad
-    })
-
-    this.medicoObraSocialService.get(this.medico.nroLegajo).subscribe(
-      data => this.correctCargaMedicoObraSociales(data)
-    )
-
-    this.medicoSecretariaService.getByMedico(this.medico.nroLegajo).subscribe(
-      data => this.correctCargaMedicoSecretaria(data)
-    )
-  }
-
-  correctCargaMedicoObraSociales(obraSocialesObtenidas: MedicoObraSocial[]){
-    this.obraSociales = [];
-    obraSocialesObtenidas.forEach(
-      unaObraSocial => this.obraSociales.push(unaObraSocial.idObraSocial)
-    );
-    
-    this.formGroup.patchValue({
-      "obraSocial": this.obraSociales
-    })
-  }
-
-  correctCargaMedicoSecretaria(secretariasObtenidas: MedicoSecretaria[]) {
-    this.secretarias = [];
-
-    secretariasObtenidas.forEach(
-      unaSecretaria => this.secretarias.push(unaSecretaria.nroLegajoSecretaria)
-    );
-
-    this.formGroup.patchValue({
-      "secretarias": this.secretarias
-    })
-
   }
 
   correctSecretarias(data: Secretaria[]) {
@@ -238,18 +133,23 @@ export class MedicoCrearComponent {
     this.listaObraSociales = data;
   }
 
-  botonModificar(){
+  correctEspecialidades(data: Especialidad[]){
+    this.listaEspecialidades = data;
+  }
 
+  botonCrear(){
     let medicoSecretariasEnviar = new Array<MedicoSecretaria>();
     this.formGroup.value.secretarias.forEach(
       unNroLegajo => medicoSecretariasEnviar.push({
-        nroLegajoMedico: this.medico.nroLegajo,
+        nroLegajoMedico: this.nroLegajo,
         nroLegajoSecretaria: unNroLegajo
       })
     )
 
+    console.log(medicoSecretariasEnviar);
+
     this.medicoSecretariaService.setByMedico(
-      this.medico.nroLegajo,
+      this.nroLegajo,
       medicoSecretariasEnviar).subscribe(
       data => this.correctSaveMedicoSecretaria(data)
     );
@@ -257,30 +157,58 @@ export class MedicoCrearComponent {
     let medicoObraSocialEnviar = new Array<MedicoObraSocial>();
     this.formGroup.value.obraSocial.forEach(
       unIdObraSocial => medicoObraSocialEnviar.push({
-        nroLegajo: this.medico.nroLegajo,
+        nroLegajo: this.nroLegajo,
         idObraSocial: unIdObraSocial
       })
     )
 
-    this.medicoObraSocialService.setByMedico(this.medico.nroLegajo,medicoObraSocialEnviar).subscribe(
+    this.medicoObraSocialService.setByMedico(this.nroLegajo,medicoObraSocialEnviar).subscribe(
       data => this.correctSaveMedicoObraSocial(data)
     )
 
+    console.log(medicoObraSocialEnviar);
+
+    this.usuario = {
+      email: this.formGroup.value.emailGroup.email,
+      nivelPermiso: 2,
+      activo: true,
+      emailConfirm: true,
+      pathReset: uuid,
+      nombre: this.formGroup.value.nombre,
+      apellido: this.formGroup.value.apellido,
+      password: this.formGroup.value.passGroup.pass
+    }
+
+    console.log(this.usuario);
+
+    this.usuarioService.newUsuario(this.usuario).subscribe(
+      data => this.correctSaveUser(data)
+    )
+
+    this.medico = new Medico();
+    this.medico.nroLegajo = this.nroLegajo;
     this.medico.nombre = this.formGroup.value.nombre;
     this.medico.apellido = this.formGroup.value.apellido;
     this.medico.dni = this.formGroup.value.dni;
     this.medico.telefono = this.formGroup.value.telefono;
     this.medico.direccion = this.formGroup.value.direccion;
     this.medico.especialidad = this.formGroup.value.especialidad;
-
+    this.medico.email = this.formGroup.value.emailGroup.email;
+    this.medico.fechaIngreso = new Date();
+    
     console.log(this.medico);
-    this.medicoService.updateFromAdmin(this.medico).subscribe(
+    
+    this.medicoService.newMedico(this.medico).subscribe(
       data => this.correctSavePaciente(data)
     )
 
     this.openDialogExito();
 
     return false;
+  }
+
+  correctSaveUser(data: User) {
+
   }
 
   correctSavePaciente(data: Boolean) {
@@ -307,10 +235,6 @@ export class MedicoCrearComponent {
     
   }
 
-  correctEspecialidades(data: Especialidad[]){
-    this.listaEspecialidades = data;
-  }
-
   openDialogExito(){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -321,7 +245,7 @@ export class MedicoCrearComponent {
     const unDialgo = this.dialog.open(SimpleDialogComponent,dialogConfig);
 
     unDialgo.afterClosed().subscribe(result => {
-      
+      this.router.navigate(['/admin/listar-usuarios']);
     });
   }
 }

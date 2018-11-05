@@ -20,6 +20,10 @@ export class TurnoService {
     return this.http.get<Turno[]>(this.config.pathServices + 'turno/get-turnos-de-paciente/'+ unDni +'/'+ unEstado);
   }
 
+  public getTurnosDeMedico(nroLegajo: number,unEstado: EstadoTurno): Observable<Turno[]> {
+    return this.http.get<Turno[]>(this.config.pathServices + 'turno/get-turnos-de-medico/'+ nroLegajo +'/'+ unEstado);
+  }
+
   public solicitarTurno(idTurno: number, idPaciente: number): Observable<Boolean> {
     return this.http.put<Boolean>(this.config.pathServices + 'turno/solicitar/'+ idTurno + '/' + idPaciente,null);
   }

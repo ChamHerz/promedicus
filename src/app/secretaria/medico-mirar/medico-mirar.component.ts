@@ -23,11 +23,11 @@ import { v4 as uuid } from 'uuid';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
-  selector: 'app-admin/medico-modificar',
-  templateUrl: './medico-modificar.component.html',
-  styleUrls: ['./medico-modificar.component.css']
+  selector: 'app-secretaria/medico-mirar',
+  templateUrl: './medico-mirar.component.html',
+  styleUrls: ['./medico-mirar.component.css']
 })
-export class MedicoModificarComponent {
+export class MedicoMirarComponent {
   grid= {
     nombre: {col: 3, row: 1},
     apellido: {col: 3, row: 1},
@@ -59,7 +59,7 @@ export class MedicoModificarComponent {
   public obraSociales = new Array<number>();
   //public listaMedicoObraSocial = new Array<MedicoObraSocial>();
   
-  public token: String;
+  public nrolegajo: String;
 
   layoutChanges = this.breakpointObserver.observe(Breakpoints.Handset).subscribe(result => {
     if(result.matches){
@@ -121,18 +121,14 @@ export class MedicoModificarComponent {
     ) {}
 
   ngOnInit() {
-    if (this.activeRoute.snapshot.params.email) {
-      this.token = this.activeRoute.snapshot.params.email;
+    if (this.activeRoute.snapshot.params.nrolegajo) {
+      this.nrolegajo = this.activeRoute.snapshot.params.nrolegajo;
     }
     else {
-      this.token = this.medicoService.getCurrentToken();
+      this.nrolegajo = this.medicoService.getCurrentToken();
     }
 
-    this.usuarioService.get(this.token).subscribe(
-      data => this.correctCargaUsuario(data)
-    )
-
-    this.medicoService.getMedico(this.token).subscribe(
+    this.medicoService.getMedicoByNroLegajo(this.nrolegajo).subscribe(
       data => this.correctCargaMedico(data)
     )
 
@@ -149,14 +145,14 @@ export class MedicoModificarComponent {
     )
 
     this.formGroup = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      apellido: ['', [Validators.required]],
+      nombre: new FormControl({value: "", disabled: true}, Validators.required),
+      apellido: new FormControl({value: "", disabled: true}, Validators.required),
       dni: new FormControl({value: 1, disabled: true}, Validators.required),
-      direccion: [''],
+      direccion: new FormControl({value: "", disabled: true}, Validators.required),
       nroLegajo: new FormControl({value: 1, disabled: true}, Validators.required),
-      especialidad: ['',[Validators.required]],
-      telefono: [''],
-      secretarias: [''],
+      especialidad: new FormControl({value: "", disabled: true}, Validators.required),
+      telefono: new FormControl({value: "", disabled: true}, Validators.required),
+      secretarias: new FormControl({value: "", disabled: true}, Validators.required),
       obraSocial: [''],
       emailGroup: this.formBuilder.group({
         email: new FormControl({value: "", disabled: true}, Validators.required),
@@ -188,6 +184,10 @@ export class MedicoModificarComponent {
 
   correctCargaMedico(data: Medico) {
     this.medico = data;
+
+    this.usuarioService.get(this.medico.email).subscribe(
+      data => this.correctCargaUsuario(data)
+    )
 
     console.log("medico",this.medico);
 
@@ -242,19 +242,19 @@ export class MedicoModificarComponent {
 
   botonModificar(){
 
-    let medicoSecretariasEnviar = new Array<MedicoSecretaria>();
-    this.formGroup.value.secretarias.forEach(
-      unNroLegajo => medicoSecretariasEnviar.push({
-        nroLegajoMedico: this.medico.nroLegajo,
-        nroLegajoSecretaria: unNroLegajo
-      })
-    )
+    // let medicoSecretariasEnviar = new Array<MedicoSecretaria>();
+    // this.formGroup.value.secretarias.forEach(
+    //   unNroLegajo => medicoSecretariasEnviar.push({
+    //     nroLegajoMedico: this.medico.nroLegajo,
+    //     nroLegajoSecretaria: unNroLegajo
+    //   })
+    // )
 
-    this.medicoSecretariaService.setByMedico(
-      this.medico.nroLegajo,
-      medicoSecretariasEnviar).subscribe(
-      data => this.correctSaveMedicoSecretaria(data)
-    );
+    // this.medicoSecretariaService.setByMedico(
+    //   this.medico.nroLegajo,
+    //   medicoSecretariasEnviar).subscribe(
+    //   data => this.correctSaveMedicoSecretaria(data)
+    // );
 
     let medicoObraSocialEnviar = new Array<MedicoObraSocial>();
     this.formGroup.value.obraSocial.forEach(
@@ -268,17 +268,17 @@ export class MedicoModificarComponent {
       data => this.correctSaveMedicoObraSocial(data)
     )
 
-    this.medico.nombre = this.formGroup.value.nombre;
-    this.medico.apellido = this.formGroup.value.apellido;
-    this.medico.dni = this.formGroup.value.dni;
-    this.medico.telefono = this.formGroup.value.telefono;
-    this.medico.direccion = this.formGroup.value.direccion;
-    this.medico.especialidad = this.formGroup.value.especialidad;
+    // this.medico.nombre = this.formGroup.value.nombre;
+    // this.medico.apellido = this.formGroup.value.apellido;
+    // this.medico.dni = this.formGroup.value.dni;
+    // this.medico.telefono = this.formGroup.value.telefono;
+    // this.medico.direccion = this.formGroup.value.direccion;
+    // this.medico.especialidad = this.formGroup.value.especialidad;
 
-    console.log(this.medico);
-    this.medicoService.updateFromAdmin(this.medico).subscribe(
-      data => this.correctSavePaciente(data)
-    )
+    // console.log(this.medico);
+    // this.medicoService.updateFromAdmin(this.medico).subscribe(
+    //   data => this.correctSavePaciente(data)
+    // )
 
     this.openDialogExito();
 

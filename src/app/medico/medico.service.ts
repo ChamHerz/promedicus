@@ -23,12 +23,20 @@ export class MedicoService {
     return this.http.get<Medico[]>(this.config.pathServices + 'medico/get-all-names');
   }
 
+  public getNewNroLegajo(): Observable<number> {
+    return this.http.get<number>(this.config.pathServices + 'medico/get-new-nrolegajo');
+  }
+
   public getCurrentToken(): String {
     return this.storageService.getCurrentToken();
   }
 
   public getMedico(email: String): Observable<Medico> {
     return this.http.get<Medico>(this.config.pathServices + 'medico/by-email/' + email);
+  }
+
+  public getMedicoByNroLegajo(nrolegajo: String): Observable<Medico> {
+    return this.http.get<Medico>(this.config.pathServices + 'medico/' + nrolegajo);
   }
 
   public updateFromAdmin(medico: Medico): Observable<Boolean> {

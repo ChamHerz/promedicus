@@ -1,0 +1,477 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Historia Clinica de <b>{{nombre}} {{apellido}}</b></h1>
+  <form id="form-new" [formGroup]="formGroup" (submit)="botonRegistrar()">
+    <mat-grid-list cols="12" rowHeight="100px">
+
+      <mat-grid-tile [colspan]="grid.datosFiliatorios.col" [rowspan]="1">
+          <h2>DATOS FILITATORIOS</h2>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.nombre.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field >
+              <input matInput placeholder="Nombre" formControlName="nombre" required>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.apellido.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Apellido" formControlName="apellido" required>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.edad.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Edad" formControlName="edad" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.sexo.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+            <mat-card-content class="dashboard-card-content">
+              <mat-form-field>
+                <mat-select placeholder="Sexo" formControlName="sexo">
+                  <mat-option *ngFor="let sexo of sexos" [value]="sexo.id">
+                    {{sexo.desc}}
+                  </mat-option>
+                </mat-select>
+                <mat-hint></mat-hint>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.dni.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="DNI" formControlName="dni" type="number" required>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.estadoCivil.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <mat-select placeholder="Estado Civl" formControlName="estadoCivil">
+                <mat-option [value]="-1">No informa</mat-option>
+                <mat-option *ngFor="let estadoCivil of listaEstadoCiviles" [value]="estadoCivil.idEstadoCivil">
+                  {{estadoCivil.estadoCivil}}
+                </mat-option>
+              </mat-select>
+              <mat-hint></mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.nacionalidad.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Nacionalidad" formControlName="nacionalidad" type="text">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      
+      <mat-grid-tile [colspan]="grid.ocupacion.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Ocupacion" formControlName="ocupacion">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.fechaNacimiento.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickerFechaNac" placeholder="Fecha Nac." formControlName="fechaNacimiento">
+              <mat-datepicker-toggle matSuffix [for]="pickerFechaNac"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFechaNac></mat-datepicker>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.instruccion.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Instruccion" formControlName="instruccion" >
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.religion.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Religion" formControlName="religion" >
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      
+      <mat-grid-tile [colspan]="grid.residencia.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Residencia" formControlName="residencia" >
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.residenciaAnterior.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Residencia Anterior" formControlName="residenciaAnterior" >
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.datosFiliatorios.col" [rowspan]="1">
+          <h2>ANTECEDENTES HEREDOFAMILIARES</h2>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.subtituloParentesco.col" [rowspan]="1">
+          <h3>PADRES</h3>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.padres.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Padres" formControlName="padres" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.padresVivos.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Vivos" formControlName="padresVivos" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.padresFallecidos.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Fallecidos" formControlName="padresFallecidos" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.padresCausas.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Causas de Muerte" formControlName="padresCausas">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.subtituloParentesco.col" [rowspan]="1">
+          <h3>HERMANOS</h3>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hermanos.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Hermanos" formControlName="hermanos" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hermanosVivos.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Vivos" formControlName="hermanosVivos" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hermanosFallecidos.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Fallecidos" formControlName="hermanosFallecidos" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hermanosCausas.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Causas de Muerte" formControlName="hermanosCausas">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.subtituloParentesco.col" [rowspan]="1">
+          <h3>HIJOS</h3>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hijos.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Hijos" formControlName="hijos" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hijosVivos.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Vivos" formControlName="hijosVivos" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hijosFallecidos.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Fallecidos" formControlName="hijosFallecidos" type="number">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hijosCausas.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Causas de Muerte" formControlName="hijosCausas">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.dbt.col" [rowspan]="1">
+          <mat-checkbox formControlName="dbt">DBT</mat-checkbox>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.hta.col" [rowspan]="1">
+          <mat-checkbox formControlName="hta">HTA</mat-checkbox>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.tbc.col" [rowspan]="1">
+          <mat-checkbox formControlName="tbc">TBC</mat-checkbox>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.gemelar.col" [rowspan]="1">
+          <mat-checkbox formControlName="gemelar">GEMELAR</mat-checkbox>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.otrosHeredo.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Otros" formControlName="otrosHeredo">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.datosFiliatorios.col" [rowspan]="1">
+          <h2>ANTECEDENTES PERSONALES</h2>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Alcohol
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Solo los fines de semana" formControlName="alcohol">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Tabaco
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="5 cigarrillos por dia" formControlName="tabaco">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Drogas
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="no" formControlName="drogas">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Infusiones
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="no" formControlName="infusiones">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Infancia
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="ninguna" formControlName="infancia">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Adulto
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="-" formControlName="adulto">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Quirurgicos
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="Operacion de meniscos, rodilla izquierda" formControlName="quirurgicos">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Traumatologicos
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="-" formControlName="traumatologicos">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Alergicos
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="no" formControlName="alergicos">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDosxUno.col" [rowspan]="1">
+          Otros
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="grid.cuadroDiez.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-form-field>
+              <input matInput placeholder="no" formControlName="otrosPersonales">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      
+      <mat-grid-tile [colspan]="grid.espacioSeis.col" [rowspan]="1"></mat-grid-tile>
+      <!-- <mat-grid-tile [colspan]="grid.botonCambiarPass.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <button mat-raised-button color="primary" type="button" (click)="cambiarPass()">Cambiar Password</button>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile> -->
+      <mat-grid-tile [colspan]="grid.botonModificar.col" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <button mat-raised-button [color]="'success'" form="form-new" type="submit" [disabled]="formGroup.invalid">Modificar</button>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+  </form>
+</div>

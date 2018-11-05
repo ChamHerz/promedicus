@@ -9,9 +9,9 @@
     <mat-toolbar color="primary">Médico</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item [routerLink]="['agenda']">Crear A. de Turnos</a>
-      <a mat-list-item href="#">Modificar A. de Turnos</a>
-      <a mat-list-item href="#">Actualizar Historia C.</a>
-      <a mat-list-item href="#" (click)="this.logout()">Logout</a>
+      <a mat-list-item [routerLink]="['mis-turnos']">Mis Turnos</a>
+      <a mat-list-item [routerLink]="['paciente-listar']">Actualizar Historia C.</a>
+      <a mat-list-item href="#" (click)="this.logout()">Cerrar Sesion</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

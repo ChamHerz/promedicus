@@ -26,6 +26,10 @@ import { ListarObraSocialesComponent } from './admin/listar-obra-sociales/listar
 import { MedicosListarComponent } from './secretaria/medicos-listar/medicos-listar.component';
 import { MedicoCrearComponent } from './admin/medico-crear/medico-crear.component';
 import { MedicoModificarComponent } from './admin/medico-modificar/medico-modificar.component';
+import { PacienteListarComponent } from './medico/paciente-listar/paciente-listar.component';
+import { HistoriaClinicaComponent } from './medico/historia-clinica/historia-clinica.component';
+import { MisTurnosComponent } from './medico/mis-turnos/mis-turnos.component';
+import { MedicoMirarComponent } from './secretaria/medico-mirar/medico-mirar.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
@@ -43,6 +47,9 @@ const routes: Routes = [
    component: HomeMedicoComponent,
    children: [
      {path: 'agenda', component: AgendaComponent},
+     {path: 'mis-turnos', component: MisTurnosComponent},
+     {path: 'paciente-listar', component: PacienteListarComponent},
+     {path: 'paciente/historia/:dni', component: HistoriaClinicaComponent},
      {path: '**', redirectTo: ''}
    ]
    },
@@ -54,6 +61,7 @@ const routes: Routes = [
      {path: 'paciente-turno/:dni', component: PacienteNewTurnoComponent},
      {path: 'paciente-crear', component: PacienteCrearComponent},
      {path: 'medicos-listar', component: MedicosListarComponent},
+     {path: 'medico-modificar/:nrolegajo', component: MedicoMirarComponent},
      {path: '**', redirectTo: ''}
    ]
   },

@@ -121,7 +121,7 @@ export class ListarUsuariosComponent {
   ngOnInit() {
     this.adapter.setLocale('mx');
 
-    this.permisos = this.permisoService.listaPermisos;
+    this.permisos = this.permisoService.listaPermisosSinAdmin;
 
     let unToken = this.adminService.getCurrentToken();
     this.adminService.getAdmin(unToken).subscribe(

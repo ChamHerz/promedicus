@@ -9,6 +9,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SimpleDialogComponent } from '../../dialog/simple-dialog/simple-dialog.component';
 import { PacienteService } from '../paciente.service';
 import { Router } from '@angular/router';
+import { NativeDateAdapter, DateAdapter } from "@angular/material";
 
 //tabla
 import {MatTableDataSource} from '@angular/material';
@@ -17,7 +18,6 @@ import { TurnoService } from '../../core/services/turno.service'
 import { TurnoConsulta } from '../../core/interface/turno-consulta';
 
 //tipo calendario
-import {DateAdapter} from '@angular/material/core';
 import { Paciente } from '../../core/models/paciente.model';
 
 export interface FuturosTurnos {
@@ -52,6 +52,7 @@ export class TurnoNewComponent {
     medico: {col: 2, row: 1},
     botonConfirmar: {col: 1, row: 1},
     tablaTurnos: {col: 6, row: 4},
+    espacioCinco: {col: 5, row: 1},
     botonSolicitar: {col: 1, ro: 1}
   }
 
@@ -95,6 +96,7 @@ export class TurnoNewComponent {
         medico: {col: 6, row: 1},
         botonConfirmar: {col: 6, row: 1},
         tablaTurnos: {col: 6, row: 4},
+        espacioCinco: {col: 5, row: 1},
         botonSolicitar: {col: 1, ro: 1}
       }
       return;
@@ -107,24 +109,26 @@ export class TurnoNewComponent {
       medico: {col: 2, row: 1},
       botonConfirmar: {col: 1, row: 1},
       tablaTurnos: {col: 6, row: 4},
+      espacioCinco: {col: 5, row: 1},
       botonSolicitar: {col: 1, ro: 1}
     }
   });
 
   constructor(
+    private dateAdapter: DateAdapter<Date>,
     private breakpointObserver: BreakpointObserver,
     private formBuilder: FormBuilder,
-    private adapter: DateAdapter<any>,
     private especialidadService: EspecilidadService,
     private medicoService: MedicoService,
     private turnoService: TurnoService,
     private dialog: MatDialog,
     private pacienteService: PacienteService,
     private router: Router
-    ) {}
+    ) {
+      this.dateAdapter.setLocale('fr'); 
+    }
 
   ngOnInit() {
-    this.adapter.setLocale('mx');
 
     let unToken = this.pacienteService.getCurrentToken();
     this.pacienteService.get(unToken).subscribe(

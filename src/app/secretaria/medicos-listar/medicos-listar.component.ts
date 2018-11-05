@@ -14,7 +14,6 @@ import {SelectionModel} from '@angular/cdk/collections';
 
 //tipo calendario
 import { DateAdapter} from '@angular/material/core';
-import { PacienteInterface } from '../../core/interface/paciente-interface';
 import { EspecilidadService } from '../../core/services/especilidad.service';
 import { Especialidad } from '../../core/models/especialidad.model';
 import { MedicoService } from '../../medico/medico.service';
@@ -170,16 +169,16 @@ export class MedicosListarComponent {
     // }
   }
 
-  botonVerTurnos(){
-    // if (this.selection.selected.length == 0) {
-    //   this.openDialogVacio();
-    //   return false;
-    // }
-    // else {
-    //   let pacienteSeleccionado: PacienteInterface;
-    //   pacienteSeleccionado = this.selection.selected[0];
-    //   this.router.navigate(['secretaria/paciente', pacienteSeleccionado.dni]);
-    // }
+  botonVerMedico(){
+    if (this.selection.selected.length == 0) {
+      this.openDialogVacio();
+      return false;
+    }
+    else {
+      let medicoiSeleccionado: MedicoInterface;
+      medicoiSeleccionado = this.selection.selected[0];
+      this.router.navigate(['secretaria/medico-modificar', medicoiSeleccionado.nroLegajo]);
+    }
   }
 
   medicosObtenidos(medicos: Medico[]) {

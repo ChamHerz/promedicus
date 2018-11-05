@@ -25,6 +25,7 @@ import { PacienteTurnoComponent } from './paciente-turno/paciente-turno.componen
 import { PacienteNewTurnoComponent } from './paciente-new-turno/paciente-new-turno.component';
 import { PacienteCrearComponent } from './paciente-crear/paciente-crear.component';
 import { MedicosListarComponent } from './medicos-listar/medicos-listar.component';
+import { MedicoMirarComponent } from './medico-mirar/medico-mirar.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,7 @@ import { MedicosListarComponent } from './medicos-listar/medicos-listar.componen
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [HomeSecretariaComponent, ListarPacientesComponent, PacienteTurnoComponent, PacienteNewTurnoComponent, PacienteCrearComponent, MedicosListarComponent],
+  declarations: [HomeSecretariaComponent, ListarPacientesComponent, PacienteTurnoComponent, PacienteNewTurnoComponent, PacienteCrearComponent, MedicosListarComponent, MedicoMirarComponent],
   exports: [HomeSecretariaComponent, ListarPacientesComponent, PacienteTurnoComponent]
 })
 export class SecretariaModule { }

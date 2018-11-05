@@ -1,0 +1,52 @@
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+}
+
+mat-grid-tile {
+  padding-top: 24px !important;
+  padding-right: 24px !important;
+}
+
+mat-grid-list {
+  margin-right: 20px !important;
+}
+
+mat-form-field {
+  width: 100% !important;
+}
+
+/* LEFT align */
+mat-list-option {
+  text-align: left;
+}
+
+.mat-card-dias {
+  padding: 15px !important;
+}
+
+table {
+  width: 100%;
+}
+
+.tabla-material {
+  height: 100% !important;
+  overflow: auto !important;
+}

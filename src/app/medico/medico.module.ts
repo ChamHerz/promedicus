@@ -22,6 +22,9 @@ import {
   MatMenuModule } from '@angular/material';
 import { AgendaComponent } from './agenda/agenda.component';
 import {SelectionModel} from '@angular/cdk/collections';
+import { PacienteListarComponent } from './paciente-listar/paciente-listar.component';
+import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.component';
+import { MisTurnosComponent } from './mis-turnos/mis-turnos.component';
 
 @NgModule({
   imports: [
@@ -45,7 +48,7 @@ import {SelectionModel} from '@angular/cdk/collections';
     MatTableModule,
     ReactiveFormsModule
   ],
-  declarations: [HomeMedicoComponent, AgendaComponent],
+  declarations: [HomeMedicoComponent, AgendaComponent, PacienteListarComponent, HistoriaClinicaComponent, MisTurnosComponent],
   exports: [
     HomeMedicoComponent
   ]
